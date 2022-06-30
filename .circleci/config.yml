@@ -5,29 +5,12 @@ orbs:
   welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
 jobs:
-  print_hello:
+  build:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/base:2020.01
     steps:
-      - run: echo hello
-  print_world:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - run: echo world
-  say_my_name:
+      - checkout
       - run:
           name: "echo an env var that is part of our project"
           command: |
             echo $my_name
-workflows:
-  # Name the workflow "welcome"
-  welcome:
-    # Run the welcome/run job in its own container
-    jobs:
-      - welcome/run
-      - print_hello
-      - print_world:
-          requires:
-            - print_hello
-      - say_my_name
